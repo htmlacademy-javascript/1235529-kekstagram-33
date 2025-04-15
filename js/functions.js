@@ -1,22 +1,20 @@
 //Проверка длинны строки.
 
-function lengthCheck (line, length) {
-  return line.length <= length;
-}
+const isLTE = (text, length) => text.length <= length;
 
-lengthCheck();
-
+isLTE('ров', 3); //true
+isLTE('помощь', 7); //false
 
 //Проверка слова на палиндром.
 
-function palindromeCheck (string) {
-  const newString = string.replaceAll().toUpperCase();
-  let emptyString = '';
-  for (let i = newString.length - 1; i >= 0; i--){
-    emptyString += newString[i];
+const isPalindrome = (text) => {
+  const refText = text.trim().toUpperCase();
+  let reversedText = '';
+  for (let i = refText.length - 1; i >= 0; i--){
+    reversedText += refText[i];
   }
-  return emptyString === newString ? true : false;
-}
+  return reversedText === refText;
+};
 
-palindromeCheck();
-
+isPalindrome(' ШалАш'); //true
+isPalindrome('папа'); //folse

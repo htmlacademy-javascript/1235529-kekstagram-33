@@ -48,30 +48,30 @@ const MESSAGES = [
 ];
 
 //генерация рандомного числа от min до max
-const getRandomInteger = (a, b) => {
-  const lower = Math.ceil(Math.min(a, b));
-  const upper = Math.floor(Math.max(a, b));
+const getRandomInteger = (min, max) => {
+  const lower = Math.ceil(Math.min(min, max));
+  const upper = Math.floor(Math.max(min, max));
   const result = Math.random() * (upper - lower + 1) + lower;
   return Math.floor(result);
 };
 
 //генерация чисел от min до max по порядку
-function createIdGenerator () {
+const createIdGenerator = () => {
   let lastGeneratedId = 0;
 
-  return function () {
+  return () => {
     lastGeneratedId += 1;
     return lastGeneratedId;
   };
-}
+};
 
 const generatePhotoId = createIdGenerator();
 
 //генерация числа из заданого промежутка без повторения значений
-function createRandomNumberFromRangeGenerator (min, max) {
+const createRandomNumberFromRangeGenerator = (min, max) => {
   const previousValues = [];
 
-  return function () {
+  return () => {
     let currentValue = getRandomInteger(min, max);
     while (previousValues.includes(currentValue)) {
       currentValue = getRandomInteger(min, max);
@@ -79,7 +79,7 @@ function createRandomNumberFromRangeGenerator (min, max) {
     previousValues.push(currentValue);
     return currentValue;
   };
-}
+};
 
 const generateUrlNumber = createRandomNumberFromRangeGenerator(URL_COUNT.MIN, URL_COUNT.MAX);
 

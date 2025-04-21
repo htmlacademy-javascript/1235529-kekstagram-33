@@ -22,10 +22,11 @@ const AVATAR_COUNT = {
   MAX: 6,
 };
 
-const URL_COUNT = {
-  MIN: 1,
-  MAX: 25,
+const COMMENTS_COUNT = {
+  MIN: 0,
+  MAX: 30,
 };
+
 
 const NAMES = [
   'Иван',
@@ -45,9 +46,15 @@ const MESSAGES = [
   'Моя бабушка случайно чихнула с фотоаппаратом в руках и у неё получилась фотография лучше.',
   'Я поскользнулся на банановой кожуре и уронил фотоаппарат на кота и у меня получилась фотография лучше.',
   'Лица у людей на фотке перекошены, как будто их избивают. Как можно было поймать такой неудачный момент?!',
+  'Это не мамины гены, это я',
+  'Любовь к себе — лучшая любовь',
+  'Внутри я также прекрасна, как и снаружи',
+  'Будь холмом в мире равнин',
+  'Улыбайтесь шире, смейтесь чаще',
+  'Иногда вам просто необходимо собственное солнце',
+  'Соленая, но сладкая',
 ];
 
-//генерация рандомного числа от min до max
 const getRandomInteger = (min, max) => {
   const lower = Math.ceil(Math.min(min, max));
   const upper = Math.floor(Math.max(min, max));
@@ -55,52 +62,44 @@ const getRandomInteger = (min, max) => {
   return Math.floor(result);
 };
 
-//генерация чисел от min до max по порядку
-const createIdGenerator = () => {
-  let lastGeneratedId = 0;
 
-  return () => {
-    lastGeneratedId += 1;
-    return lastGeneratedId;
-  };
+const shuffle = (data) => {
+  let m = data.length;
+  while (m) {
+    const item = Math.floor(Math.random() * m--);
+    [data[m], data[item]] = [data[item], data[m]];
+  }
+  return data;
 };
 
-const generatePhotoId = createIdGenerator();
-
-//генерация числа из заданого промежутка без повторения значений
-const createRandomNumberFromRangeGenerator = (min, max) => {
-  const previousValues = [];
-
-  return () => {
-    let currentValue = getRandomInteger(min, max);
-    while (previousValues.includes(currentValue)) {
-      currentValue = getRandomInteger(min, max);
-    }
-    previousValues.push(currentValue);
-    return currentValue;
-  };
-};
-
-const generateUrlNumber = createRandomNumberFromRangeGenerator(URL_COUNT.MIN, URL_COUNT.MAX);
-
-//взятие рандомного элемента из массива
 const getRandomArrayElement = (elements) => elements[getRandomInteger(0, elements.length - 1)];
 
-//генерируем массив с описанием фотографии
-const createPhotoDescription = () => ({
-  id: generatePhotoId(),
-  url: `photos/${generateUrlNumber()}.jpg`,
-  description: getRandomArrayElement(DESCRIPTIONS),
-  likes: getRandomInteger(LIKES_COUNT.MIN, LIKES_COUNT.MAX),
-  comments:{
-    id: getRandomInteger(COMMENTS_ID_COUNT.MIN, COMMENTS_ID_COUNT.MAX),
-    name: getRandomArrayElement(NAMES),
-    avatar: `img/avatar-${getRandomInteger(AVATAR_COUNT.MIN, AVATAR_COUNT.MAX)}.svg`,
-    message: getRandomArrayElement(MESSAGES),
-  },
+const getRandomMessages = () =>{
+  const shuffledMessages = shuffle([...MESSAGES]);
+  return getRandomInteger(0, 1) === 1 ? shuffledMessages[0] : `${shuffledMessages[0]} ${shuffledMessages[1]}`;
+};
+
+const createPhotoComment = () => ({
+  id: getRandomInteger(COMMENTS_ID_COUNT.MIN, COMMENTS_ID_COUNT.MAX),
+  name: getRandomArrayElement(NAMES),
+  avatar: `img/avatar-${getRandomInteger(AVATAR_COUNT.MIN, AVATAR_COUNT.MAX)}.svg`,
+  message: getRandomMessages(),
 });
 
-//создаем массив из 25 обьектов
-const getCards = Array.from({length: CARDS_COUNT}, createPhotoDescription);
+const createPhotoDescription = (id) => ({
+  id,
+  url: `photos/${id}.jpg`,
+  description: getRandomArrayElement(DESCRIPTIONS),
+  likes: getRandomInteger(LIKES_COUNT.MIN, LIKES_COUNT.MAX),
+  comments: Array.from({length: getRandomInteger(COMMENTS_COUNT.MIN, COMMENTS_COUNT.MAX)}, createPhotoComment),
+});
 
-getCards(); //для линтера
+
+const getCards = () => {
+  const ids = Array.from({ length: CARDS_COUNT }, (_, i) => i + 1);
+  return shuffle(ids).map(createPhotoDescription);
+};
+
+console.log(getCards());
+
+

@@ -1,11 +1,5 @@
 const CARDS_COUNT = 25;
-
-const DESCRIPTIONS = [
-  'Горы Китая',
-  'Котопес',
-  'Жизнь у моря',
-  'Солнечная лагуна',
-];
+const URL_COUNT = 25;
 
 const COMMENTS_ID_COUNT = {
   MIN: 0,
@@ -27,6 +21,12 @@ const COMMENTS_COUNT = {
   MAX: 30,
 };
 
+const DESCRIPTIONS = [
+  'Горы Китая',
+  'Котопес',
+  'Жизнь у моря',
+  'Солнечная лагуна',
+];
 
 const NAMES = [
   'Иван',
@@ -86,20 +86,23 @@ const createPhotoComment = () => ({
   message: getRandomMessages(),
 });
 
-const createPhotoDescription = (id) => ({
+const getShuffledData = (count) =>{
+  const data = Array.from({ length: count }, (_, i) => i + 1);
+  return shuffle(data);
+};
+
+const getUrl = getShuffledData(URL_COUNT);
+
+const createPhotoDescription = (id, i) => ({
   id,
-  url: `photos/${id}.jpg`,
+  url: `photos/${getUrl[i]}.jpg`,
   description: getRandomArrayElement(DESCRIPTIONS),
   likes: getRandomInteger(LIKES_COUNT.MIN, LIKES_COUNT.MAX),
   comments: Array.from({length: getRandomInteger(COMMENTS_COUNT.MIN, COMMENTS_COUNT.MAX)}, createPhotoComment),
 });
 
+const getCards = getShuffledData(CARDS_COUNT).map(createPhotoDescription);
 
-const getCards = () => {
-  const ids = Array.from({ length: CARDS_COUNT }, (_, i) => i + 1);
-  return shuffle(ids).map(createPhotoDescription);
-};
-
-console.log(getCards());
+getCards(); //для линтера
 
 

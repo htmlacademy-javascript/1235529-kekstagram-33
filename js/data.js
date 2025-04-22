@@ -1,4 +1,4 @@
-import {getRandomInteger, shuffle, getRandomArrayElement} from './util.js';
+import {getRandomInteger, shuffle, getRandomItem} from './util.js';
 
 const CARDS_COUNT = 25;
 const URL_COUNT = 25;
@@ -64,7 +64,7 @@ const getRandomMessages = () =>{
 
 const createPhotoComment = () => ({
   id: getRandomInteger(COMMENTS_ID_COUNT.MIN, COMMENTS_ID_COUNT.MAX),
-  name: getRandomArrayElement(NAMES),
+  name: getRandomItem(NAMES),
   avatar: `img/avatar-${getRandomInteger(AVATAR_COUNT.MIN, AVATAR_COUNT.MAX)}.svg`,
   message: getRandomMessages(),
 });
@@ -74,12 +74,12 @@ const getShuffledData = (count) =>{
   return shuffle(data);
 };
 
-const getUrl = getShuffledData(URL_COUNT);
+const urlIds = getShuffledData(URL_COUNT);
 
 const createPhotoDescription = (id, i) => ({
   id,
-  url: `photos/${getUrl[i]}.jpg`,
-  description: getRandomArrayElement(DESCRIPTIONS),
+  url: `photos/${urlIds[i]}.jpg`,
+  description: getRandomItem(DESCRIPTIONS),
   likes: getRandomInteger(LIKES_COUNT.MIN, LIKES_COUNT.MAX),
   comments: Array.from({length: getRandomInteger(COMMENTS_COUNT.MIN, COMMENTS_COUNT.MAX)}, createPhotoComment),
 });

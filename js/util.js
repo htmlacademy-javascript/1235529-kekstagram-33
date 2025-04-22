@@ -1,7 +1,7 @@
-const getRandomInteger = (min, max) => {
-  const lower = Math.ceil(Math.min(min, max));
-  const upper = Math.floor(Math.max(min, max));
-  const result = Math.random() * (upper - lower + 1) + lower;
+const getRandomInteger = (a, b) => {
+  const min = Math.ceil(Math.min(a, b));
+  const max = Math.floor(Math.max(a, b));
+  const result = Math.random() * (max - min + 1) + min;
   return Math.floor(result);
 };
 
@@ -15,6 +15,6 @@ const shuffle = (data) => {
   return data;
 };
 
-const getRandomArrayElement = (elements) => elements[getRandomInteger(0, elements.length - 1)];
+const getRandomItem = (data) => data[getRandomInteger(0, data.length - 1)];
 
-export {getRandomInteger, shuffle, getRandomArrayElement};
+export {getRandomInteger, shuffle, getRandomItem};

@@ -1,9 +1,9 @@
-const checkMeetingTime = (workStart, workEnd, meetingStart, meetingDuration) => {
+const isMeetingValid = (workStart, workEnd, meetingStart, meetingDuration) => {
 
-  function timeToMinutes(time) {
+  const timeToMinutes = (time) => {
     const [hours, minutes] = time.split(':').map(Number);
     return hours * 60 + minutes;
-  }
+  };
 
   const workStartMinutes = timeToMinutes(workStart);
   const workEndMinutes = timeToMinutes(workEnd);
@@ -13,7 +13,7 @@ const checkMeetingTime = (workStart, workEnd, meetingStart, meetingDuration) => 
   return meetingStartMinutes >= workStartMinutes && meetingEndMinutes <= workEndMinutes;
 };
 
-checkMeetingTime();
+isMeetingValid();
 
 // console.log(checkMeetingTime('08:00', '17:30', '14:00', 90)); // true
 // console.log(checkMeetingTime('8:0', '10:0', '8:0', 120)); // true

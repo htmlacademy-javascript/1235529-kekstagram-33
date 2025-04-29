@@ -2,6 +2,7 @@ import {getRandomInteger, shuffle, getRandomItem} from './util.js';
 
 const CARDS_COUNT = 25;
 const URL_COUNT = 25;
+const QUANTITY_ARRAYS = 25;
 
 const COMMENTS_ID_COUNT = {
   MIN: 0,
@@ -86,4 +87,6 @@ const createPhotoDescription = (id, i) => ({
 
 const getCards = () => getShuffledData(CARDS_COUNT).map(createPhotoDescription);
 
-export {getCards};
+const createDescriptionPhoto = Array.from ({length: QUANTITY_ARRAYS}, createPhotoDescription);
+
+export {getCards, createDescriptionPhoto};

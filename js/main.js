@@ -1,5 +1,3 @@
-import { getCards } from './data.js';
+import { renderThumbnails } from './thumbnail_render.js';
 
-getCards();
-
-
+renderThumbnails();

@@ -5,26 +5,22 @@ const pictures = document.querySelector('.pictures');
 
 const createThumbnail = (photo) => {
   const thumbnail = thumbnailTemplate.cloneNode(true);
-
-  const thumbnailLikes = thumbnail.querySelector('.picture__likes');
-  thumbnailLikes.textContent = photo.likes;
-
-  const thumbnailImg = thumbnail.querySelector('.picture__img');
-  thumbnailImg.src = photo.url;
-  thumbnailImg.alt = photo.description;
-
-  const thumbnailComments = thumbnail.querySelector('.picture__comments');
-  thumbnailComments.textContent = photo.comments.length;
+  thumbnail.querySelector('.picture__likes').textContent = photo.likes;
+  thumbnail.querySelector('.picture__img').src = photo.url;
+  thumbnail.querySelector('.picture__img').alt = photo.description;
+  thumbnail.querySelector('.picture__comments').textContent = photo.comments.length;
 
   return thumbnail;
 };
 
-const fragment = document.createDocumentFragment();
 
-createDescriptionPhoto.forEach((photo) => {
-  fragment.append(createThumbnail(photo));
-});
+const renderThumbnails = () =>{
+  const fragment = document.createDocumentFragment();
 
-const thumbnailsRender = () => pictures.append(fragment);
+  createDescriptionPhoto.forEach((photo) => {
+    fragment.append(createThumbnail(photo));
+  });
+  pictures.append(fragment);
+};
 
-export {thumbnailsRender};
+export {renderThumbnails};

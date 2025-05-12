@@ -1,7 +1,13 @@
 import { createDescriptionPhoto } from './data.js';
+import {openBigPhoto} from './rendering_full_size_photo.js';
 
 const thumbnailTemplate = document.querySelector('#picture').content.querySelector('.picture');
 const pictures = document.querySelector('.pictures');
+
+const onThumbnailClick = (evt, photo) => {
+  evt.preventDefault();
+  openBigPhoto(photo);
+};
 
 const createThumbnail = (photo) => {
   const thumbnail = thumbnailTemplate.cloneNode(true);
@@ -9,6 +15,10 @@ const createThumbnail = (photo) => {
   thumbnail.querySelector('.picture__img').src = photo.url;
   thumbnail.querySelector('.picture__img').alt = photo.description;
   thumbnail.querySelector('.picture__comments').textContent = photo.comments.length;
+
+  thumbnail.addEventListener('click', (evt) => {
+    onThumbnailClick(evt, photo);
+  });
 
   return thumbnail;
 };

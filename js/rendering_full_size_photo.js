@@ -1,4 +1,5 @@
 import { isEscapeKey } from './util.js';
+import { insertComments } from './insert-comment.js';
 
 const bigPhoto = document.querySelector('.big-picture');
 const cancelBigPhoto = bigPhoto.querySelector('.big-picture__cancel');
@@ -29,6 +30,8 @@ function openBigPhoto(photo) {
   bodyList.classList.add('modal-open');
   commentsLoader.classList.add('hidden');
   socialCommentCount.classList.add('hidden');
+
+  insertComments(photo);
 
   bigPhotoImg.src = photo.url;
   bigPhotoImg.alt = photo.description;

@@ -16,5 +16,6 @@ const shuffle = (data) => {
 };
 
 const getRandomItem = (data) => data[getRandomInteger(0, data.length - 1)];
+const isEscapeKey = (evt) => evt.key === 'Escape';
 
-export {getRandomInteger, shuffle, getRandomItem};
+export {getRandomInteger, shuffle, getRandomItem, isEscapeKey};

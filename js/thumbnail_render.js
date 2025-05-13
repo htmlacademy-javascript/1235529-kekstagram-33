@@ -1,12 +1,12 @@
 import { createDescriptionPhoto } from './data.js';
-import {openBigPhoto} from './rendering_full_size_photo.js';
+import {openBigPicture} from './rendering_full_size_photo.js';
 
 const thumbnailTemplate = document.querySelector('#picture').content.querySelector('.picture');
 const pictures = document.querySelector('.pictures');
 
 const onThumbnailClick = (evt, photo) => {
   evt.preventDefault();
-  openBigPhoto(photo);
+  openBigPicture(photo);
 };
 
 const createThumbnail = (photo) => {

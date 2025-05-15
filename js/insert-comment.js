@@ -1,6 +1,6 @@
-const commentTemplate = document.querySelector('.social__comment');
-
 const getComment = (commentData) => {
+  const commentTemplate = document.querySelector('.social__comment');
+
   const comment = commentTemplate.cloneNode(true);
   const commentImg = comment.querySelector('img');
   const commentMessage = comment.querySelector('p');

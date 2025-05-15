@@ -2,11 +2,11 @@ import { isEscapeKey } from './util.js';
 
 const bigPicture = document.querySelector('.big-picture');
 const cancelBigPicture = bigPicture.querySelector('.big-picture__cancel');
-const bodyList = document.querySelector('body');
+const body = document.querySelector('body');
 const commentsLoader = bigPicture.querySelector('.comments-loader');
 const socialCommentCount = bigPicture.querySelector('.social__comment-count');
 const bigPictureImg = bigPicture.querySelector('.big-picture__img img');
-const bigPictureLikes = bigPicture.querySelector('.likes-count');
+const likesCount = bigPicture.querySelector('.likes-count');
 const bigPictureComments = bigPicture.querySelector('.social__comment-shown-count');
 const bigPictureCommentsAll = bigPicture.querySelector('.social__comment-total-count');
 const bigPictureDescription = bigPicture.querySelector('.social__caption');
@@ -55,7 +55,7 @@ const onPhotoCloseClick = (event) => {
 
 const openPost = (post) => {
   bigPicture.classList.remove('hidden');
-  bodyList.classList.add('modal-open');
+  body.classList.add('modal-open');
   commentsLoader.classList.add('hidden');
   socialCommentCount.classList.add('hidden');
 
@@ -64,7 +64,7 @@ const openPost = (post) => {
   bigPictureImg.src = post.url;
   bigPictureImg.alt = post.description;
   bigPictureDescription.textContent = post.description;
-  bigPictureLikes.textContent = post.likes;
+  likesCount.textContent = post.likes;
   bigPictureComments.textContent = post.comments.length;
   bigPictureCommentsAll.textContent = post.comments.length;
 
@@ -74,7 +74,7 @@ const openPost = (post) => {
 
 const closePost = () => {
   bigPicture.classList.add('hidden');
-  bodyList.classList.remove('modal-open');
+  body.classList.remove('modal-open');
 
   document.removeEventListener('keydown', onDocumentKeydown);
   cancelBigPicture.removeEventListener('click', onPhotoCloseClick);

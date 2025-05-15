@@ -15,7 +15,7 @@ const LIKES_COUNT = {
 };
 
 const AVATAR_COUNT = {
-  MIN: 0,
+  MIN: 1,
   MAX: 6,
 };
 

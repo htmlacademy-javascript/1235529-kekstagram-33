@@ -1,7 +1,7 @@
 import { isEscapeKey } from './util.js';
 
 const COMMENTS_SHOW_STEP = 5;
-let commentsLimitCurrent = COMMENTS_SHOW_STEP;
+let commentsDisplayedCount = COMMENTS_SHOW_STEP;
 let commentsData = [];
 
 const bigPicture = document.querySelector('.big-picture');
@@ -29,27 +29,25 @@ const getComment = (commentSample) => {
 };
 
 const clearComments = () => {
-  while (socialComments.firstChild) {
-    socialComments.removeChild(socialComments.firstChild);
-  }
-  commentsLimitCurrent = COMMENTS_SHOW_STEP;
+  socialComments.innerHTML = '';
+  commentsDisplayedCount = COMMENTS_SHOW_STEP;
   commentsLoader.classList.remove('hidden');
 };
 
 
 const showMoreComments = () => {
-  const commentsToDisplay = commentsData.slice(commentsLimitCurrent - COMMENTS_SHOW_STEP, commentsLimitCurrent);
+  const showComments = commentsData.slice(commentsDisplayedCount - COMMENTS_SHOW_STEP, commentsDisplayedCount);
 
-  commentsToDisplay.forEach((commentData) => {
-    socialComments.append(getComment(commentData));
+  showComments.forEach((comment) => {
+    socialComments.append(getComment(comment));
   });
 
-  commentsLimitCurrent += COMMENTS_SHOW_STEP;
+  commentsDisplayedCount += COMMENTS_SHOW_STEP;
 
-  const CommentShownCount = socialComments.children.length;
-  bigPictureComments.textContent = CommentShownCount;
+  const сommentShownCount = socialComments.children.length;
+  bigPictureComments.textContent = сommentShownCount;
 
-  if (CommentShownCount === commentsData.length){
+  if (сommentShownCount === commentsData.length){
     commentsLoader.classList.add('hidden');
   }
 
@@ -61,8 +59,7 @@ const insertComments = (photoData) => {
   showMoreComments();
 };
 
-const onCommentsLoaderClick = (evt) => {
-  evt.preventDefault();
+const onShowMoreClick = () => {
   showMoreComments();
 };
 
@@ -92,7 +89,7 @@ const openPost = (post) => {
   bigPictureCommentsAll.textContent = post.comments.length;
   bigPicture.scrollTo(0,0);
 
-  commentsLoader.addEventListener('click', onCommentsLoaderClick);
+  commentsLoader.addEventListener('click', onShowMoreClick);
   document.addEventListener('keydown', onDocumentKeydown);
   cancelBigPicture.addEventListener('click', onPhotoCloseClick);
 };
@@ -105,7 +102,7 @@ const closePost = () => {
 
   document.removeEventListener('keydown', onDocumentKeydown);
   cancelBigPicture.removeEventListener('click', onPhotoCloseClick);
-  commentsLoader.removeEventListener('click', onCommentsLoaderClick);
+  commentsLoader.removeEventListener('click', onShowMoreClick);
 };
 
 export {openPost};

@@ -1,10 +1,34 @@
+const DESCRIPTION_SYMBOLS_MAX = 140;
 const HASHTAGS_SYMBOLS_MAX = 20;
 const HASHTAGS_MAX = 5;
 
-let errorMessage = '';
+let errorMessageSample = '';
+
+const validateDescription = (inputText) => {
+  errorMessageSample = '';
+
+  if (!inputText) {
+    return true;
+  }
+
+  const rules = [
+    {
+      check: inputText.length > DESCRIPTION_SYMBOLS_MAX,
+      error: `Максимальная длина описания ${DESCRIPTION_SYMBOLS_MAX} символов.`
+    }
+  ];
+
+  return rules.every((rule) => {
+    const isInvalid = rule.check;
+    if (isInvalid) {
+      errorMessageSample = rule.error;
+    }
+    return !isInvalid;
+  });
+};
 
 const validateHashtags = (value) => {
-  errorMessage = '';
+  errorMessageSample = '';
 
   const inputText = value.toLowerCase().trim();
 
@@ -48,12 +72,13 @@ const validateHashtags = (value) => {
   return rules.every((rule) => {
     const isInvalid = rule.check;
     if (isInvalid) {
-      errorMessage = rule.error;
+      errorMessageSample = rule.error;
     }
     return !isInvalid;
   });
 };
 
-const errorHashtags = () => errorMessage;
+const errorMessage = () => errorMessageSample;
 
-export { validateHashtags, errorHashtags };
+
+export { validateDescription, validateHashtags, errorMessage };

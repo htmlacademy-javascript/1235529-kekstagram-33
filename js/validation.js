@@ -2,10 +2,13 @@ const DESCRIPTION_SYMBOLS_MAX = 140;
 const HASHTAGS_SYMBOLS_MAX = 20;
 const HASHTAGS_MAX = 5;
 
-let errorMessageSample = '';
+const errors = {
+  tags: '',
+  description: '',
+};
+
 
 const validateDescription = (inputText) => {
-  errorMessageSample = '';
 
   if (!inputText) {
     return true;
@@ -21,14 +24,13 @@ const validateDescription = (inputText) => {
   return rules.every((rule) => {
     const isInvalid = rule.check;
     if (isInvalid) {
-      errorMessageSample = rule.error;
+      errors.description = rule.error;
     }
     return !isInvalid;
   });
 };
 
 const validateHashtags = (value) => {
-  errorMessageSample = '';
 
   const inputText = value.toLowerCase().trim();
 
@@ -72,13 +74,13 @@ const validateHashtags = (value) => {
   return rules.every((rule) => {
     const isInvalid = rule.check;
     if (isInvalid) {
-      errorMessageSample = rule.error;
+      errors.tags = rule.error;
     }
     return !isInvalid;
   });
 };
 
-const errorMessage = () => errorMessageSample;
+const getError = (field) => () => errors[field];
 
 
-export { validateDescription, validateHashtags, errorMessage };
+export { validateDescription, validateHashtags, getError };

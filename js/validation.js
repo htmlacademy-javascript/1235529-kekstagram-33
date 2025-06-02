@@ -7,76 +7,64 @@ const errors = {
   description: '',
 };
 
-
 const validateDescription = (inputText) => {
-
   if (!inputText) {
     return true;
   }
 
-  const rules = [
-    {
-      check: inputText.length > DESCRIPTION_SYMBOLS_MAX,
-      error: `Максимальная длина описания ${DESCRIPTION_SYMBOLS_MAX} символов.`
-    }
-  ];
+  const errorDescription = `Максимальная длина описания ${DESCRIPTION_SYMBOLS_MAX} символов.`;
 
-  return rules.every((rule) => {
-    const isInvalid = rule.check;
-    if (isInvalid) {
-      errors.description = rule.error;
-    }
-    return !isInvalid;
-  });
+  if (inputText.length >= DESCRIPTION_SYMBOLS_MAX) {
+    errors.description = errorDescription;
+    return false;
+  }
+  return true;
 };
 
 const validateHashtags = (value) => {
-
   const inputText = value.toLowerCase().trim();
-
   if (!inputText) {
     return true;
   }
 
-  const inputArray = inputText.split(/\s+/);
-
+  const inputData = inputText.split(/\s+/);
   const rules = [
     {
-      check: inputArray.some((item) => item[0] !== '#'),
+      check: inputData.some((item) => item[0] !== '#'),
       error: 'Хэштег должен начинаться с символа "#".',
     },
     {
-      check: inputArray.some((item) => item === '#'),
+      check: inputData.some((item) => item === '#'),
       error: 'Хэштег не может состоять только из символа "#".',
     },
     {
-      check: inputArray.some((item) => item.indexOf('#', 1) >= 1),
+      check: inputData.some((item) => item.indexOf('#', 1) >= 1),
       error: 'Хэштеги разделяются пробелами.'
     },
     {
-      check: inputArray.some((item, num, arr) => arr.includes(item, num + 1)),
+      check: inputData.some((item, i) => inputData.includes(item, i + 1)),
       error: 'Хэштеги не должны повторяться.'
     },
     {
-      check: inputArray.some((item) => item.length > HASHTAGS_SYMBOLS_MAX),
+      check: inputData.some((item) => item.length > HASHTAGS_SYMBOLS_MAX),
       error: `Максимальная длина одного хэштега ${HASHTAGS_SYMBOLS_MAX} символов, включая символ "#".`
     },
     {
-      check: inputArray.length > HASHTAGS_MAX,
+      check: inputData.length > HASHTAGS_MAX,
       error: `Хэштегов должно быть не больше ${HASHTAGS_MAX}.`
     },
     {
-      check: inputArray.some((item) => !/^#[a-zа-яё0-9]{1,19}$/i.test(item)),
+      check: inputData.some((item) => !/^#[a-zа-яё0-9]{1,19}$/i.test(item)),
       error: 'Хэштег содержит недопустимый символ.'
     },
   ];
 
   return rules.every((rule) => {
-    const isInvalid = rule.check;
-    if (isInvalid) {
+    if (rule.check) {
       errors.tags = rule.error;
+      return false;
     }
-    return !isInvalid;
+    return true;
   });
 };
 

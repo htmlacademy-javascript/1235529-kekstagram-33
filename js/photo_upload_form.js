@@ -1,16 +1,19 @@
 import { isEscapeKey } from './util.js';
 import { validateDescription, validateHashtags, getError } from './validation.js';
 
+const GET_ERROR_TAGS = 'tags';
+const GET_ERROR_DESCRIPTION = 'description';
+
 const body = document.querySelector('body');
 const overlayForm = document.querySelector('.img-upload__overlay');
 const closeBtnForm = overlayForm.querySelector('.img-upload__cancel');
-const UploadForm = document.querySelector('.img-upload__form');
-const inputDescription = UploadForm.querySelector('.text__description');
-const inputHashtags = UploadForm.querySelector('.text__hashtags');
-const UploadSubmit = UploadForm.querySelector('.img-upload__submit');
+const uploadForm = document.querySelector('.img-upload__form');
+const inputDescription = uploadForm.querySelector('.text__description');
+const inputHashtags = uploadForm.querySelector('.text__hashtags');
+const uploadSubmit = uploadForm.querySelector('.img-upload__submit');
 const uploadFile = document.querySelector('#upload-file');
 
-const pristine = new Pristine(UploadForm, {
+const pristine = new Pristine(uploadForm, {
   classTo: 'img-upload__field-wrapper',
   errorTextParent: 'img-upload__field-wrapper',
   errorTextClass: 'img-upload__field-wrapper--error'
@@ -18,23 +21,30 @@ const pristine = new Pristine(UploadForm, {
 
 const onHashtagsInput = () => {
   if (pristine.validate()) {
-    UploadSubmit.disabled = false;
+    uploadSubmit.disabled = false;
     return;
   }
-  UploadSubmit.disabled = true;
+
+  uploadSubmit.disabled = true;
 };
 
 const onDescriptionInput = () => {
   if (pristine.validate()) {
-    UploadSubmit.disabled = false;
+    uploadSubmit.disabled = false;
     return;
-  } UploadSubmit.disabled = true;
+  } uploadSubmit.disabled = true;
 };
 
-const onDocumentKeydown = (event) => isEscapeKey(event) && (document.activeElement === inputHashtags || document.activeElement === inputDescription ? event.stopPropagation() : closeFormUpload());// eslint-disable-line
+const onDocumentKeydown = (event) => {
+  if (isEscapeKey(event) && (document.activeElement === inputHashtags || document.activeElement === inputDescription)){
+    return;
+  }
+  if (isEscapeKey(event)){
+    closeFormUpload();// eslint-disable-line
+  }
+};
 
 const onClickCloseBtnForm = () => closeFormUpload();// eslint-disable-line
-
 
 const onClickFormUpload = () => {
   body.classList.add('modal-open');
@@ -52,9 +62,8 @@ const closeFormUpload = () => {
 
 uploadFile.addEventListener('change', onClickFormUpload);
 
-pristine.addValidator(inputHashtags, validateHashtags, getError('tags'), 1, false);
+pristine.addValidator(inputHashtags, validateHashtags, getError(GET_ERROR_TAGS), false);
 inputHashtags.addEventListener('input', onHashtagsInput);
 
-pristine.addValidator(inputDescription, validateDescription, getError('description'), 2, false);
+pristine.addValidator(inputDescription, validateDescription, getError(GET_ERROR_DESCRIPTION), false);
 inputDescription.addEventListener('input', onDescriptionInput);
-

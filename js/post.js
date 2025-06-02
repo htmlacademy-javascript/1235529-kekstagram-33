@@ -66,13 +66,15 @@ const onShowMoreClick = () => {
 const onDocumentKeydown = (event) => {
   if (isEscapeKey(event)) {
     event.preventDefault();
-    closePost(); // eslint-disable-line
+    /* eslint-disable no-use-before-define*/
+    closePost();
   }
 };
 
 const onPhotoCloseClick = (event) => {
   event.preventDefault();
-  closePost(); // eslint-disable-line
+  /* eslint-disable no-use-before-define*/
+  closePost();
 };
 
 const openPost = (post) => {

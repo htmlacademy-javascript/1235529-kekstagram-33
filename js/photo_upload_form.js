@@ -40,24 +40,23 @@ const onDocumentKeydown = (event) => {
     return;
   }
   if (isEscapeKey(event)){
-    closeFormUpload();// eslint-disable-line
+    /* eslint-disable no-use-before-define*/
+    closeFormUpload();
   }
 };
-
-const onClickCloseBtnForm = () => closeFormUpload();// eslint-disable-line
 
 const onClickFormUpload = () => {
   body.classList.add('modal-open');
   overlayForm.classList.remove('hidden');
-  closeBtnForm.addEventListener('click', onClickCloseBtnForm);
   document.addEventListener('keydown', onDocumentKeydown);
+  closeBtnForm.addEventListener('click', closeFormUpload);
 };
 
 const closeFormUpload = () => {
   overlayForm.classList.add('hidden');
   body.classList.remove('modal-open');
   document.removeEventListener('keydown', onDocumentKeydown);
-  closeBtnForm.removeEventListener('click', onClickCloseBtnForm);
+  closeBtnForm.removeEventListener('click', closeFormUpload);
 };
 
 uploadFile.addEventListener('change', onClickFormUpload);

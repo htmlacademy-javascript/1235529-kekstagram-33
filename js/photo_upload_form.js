@@ -1,5 +1,7 @@
 import { isEscapeKey } from './util.js';
 import { validateDescription, validateHashtags, getError } from './validation.js';
+import { changeZoom, resetZoom } from './zoom.js';
+import { resetEffect } from './filters.js';
 
 const GET_ERROR_TAGS = 'tags';
 const GET_ERROR_DESCRIPTION = 'description';
@@ -12,6 +14,9 @@ const inputDescription = uploadForm.querySelector('.text__description');
 const inputHashtags = uploadForm.querySelector('.text__hashtags');
 const uploadSubmit = uploadForm.querySelector('.img-upload__submit');
 const uploadFile = document.querySelector('#upload-file');
+const scaleControlSmaller = uploadForm.querySelector('.scale__control--smaller');
+const scaleControlBigger = uploadForm.querySelector('.scale__control--bigger');
+
 
 const pristine = new Pristine(uploadForm, {
   classTo: 'img-upload__field-wrapper',
@@ -45,6 +50,9 @@ const onDocumentKeydown = (event) => {
   }
 };
 
+scaleControlSmaller.addEventListener('click', () => changeZoom(-1));
+scaleControlBigger.addEventListener('click', () => changeZoom());
+
 const onClickFormUpload = () => {
   body.classList.add('modal-open');
   overlayForm.classList.remove('hidden');
@@ -53,6 +61,8 @@ const onClickFormUpload = () => {
 };
 
 const closeFormUpload = () => {
+  resetZoom();
+  resetEffect();
   overlayForm.classList.add('hidden');
   body.classList.remove('modal-open');
   document.removeEventListener('keydown', onDocumentKeydown);

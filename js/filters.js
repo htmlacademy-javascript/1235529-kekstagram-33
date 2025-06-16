@@ -74,7 +74,7 @@ noUiSlider.create(sliderElement, {
 
 sliderElement.noUiSlider.on('slide', (value) => {
   effectValue.value = [...value];
-  image.style.filter = effects[currentEffect.replace('effects__preview--', '')]();
+  image.style.filter = effects[currentEffect]();
 });
 
 const resetEffect = () => {

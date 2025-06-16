@@ -17,6 +17,8 @@ const imgSliderUpload = uploadForm.querySelector('.img-upload__effect-level');
 const effectValue = uploadForm.querySelector('.effect-level__value');
 const sliderElement = uploadForm.querySelector('.effect-level__slider');
 
+let currentEffect = '';
+
 const effects = {
   none: () => {
     imgSliderUpload.classList.add('visually-hidden');
@@ -46,18 +48,16 @@ const effects = {
 
 effects.none();
 
-let currentEffect = '';
-
-const onEffectsListClick = (evt) => {
-  const target = evt.target;
-
-  if (target.classList.contains('effects__preview')) {
-    sliderElement.noUiSlider.set(slider.MAX);
-    effectValue.value = slider.MAX;
-
-    currentEffect = target.classList[1].replace('effects__preview--', '');
-    image.style.filter = effects[currentEffect]();
+const onEffectsListClick = (event) => {
+  const { target } = event;
+  if (!target.classList.contains('effects__preview')) {
+    return;
   }
+
+  sliderElement.noUiSlider.set(slider.MAX);
+  effectValue.value = slider.MAX;
+  currentEffect = target.classList[1].replace('effects__preview--', '');
+  image.style.filter = effects[currentEffect]();
 };
 
 effectsList.addEventListener('click', onEffectsListClick);

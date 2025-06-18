@@ -2,6 +2,9 @@ import { isEscapeKey } from './util.js';
 import { validateDescription, validateHashtags, getError } from './validation.js';
 import { changeZoom, resetZoom } from './zoom.js';
 import { resetEffect } from './filters.js';
+import { sendData } from './api.js';
+import { showAlertSucces } from './alert-success.js';
+import {showAlertError} from './alert-error.js';
 
 const GET_ERROR_TAGS = 'tags';
 const GET_ERROR_DESCRIPTION = 'description';
@@ -76,3 +79,24 @@ inputHashtags.addEventListener('input', onHashtagsInput);
 
 pristine.addValidator(inputDescription, validateDescription, getError(GET_ERROR_DESCRIPTION), false);
 inputDescription.addEventListener('input', onDescriptionInput);
+
+const onFormImgUploadSubmit = (evt) => {
+  evt.preventDefault();
+  uploadSubmit.disabled = true;
+
+  const formData = new FormData(uploadForm);
+
+  sendData(formData)
+    .then(() => {
+      showAlertSucces();
+      closeFormUpload();
+    })
+    .catch((err) => {
+      showAlertError(err.message);
+    })
+    .finally(() => {
+      uploadSubmit.disabled = false;
+    });
+};
+
+uploadForm.addEventListener('submit', onFormImgUploadSubmit);

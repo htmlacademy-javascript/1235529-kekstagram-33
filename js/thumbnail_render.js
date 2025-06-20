@@ -1,8 +1,9 @@
-import { createDescriptionPhoto } from './data.js';
 import {openPost} from './post.js';
+import {showPopup} from './popup-error.js';
+import {getData} from './api.js';
 
 const thumbnailTemplate = document.querySelector('#picture').content.querySelector('.picture');
-const pictures = document.querySelector('.pictures');
+const picturesContainer = document.querySelector('.pictures');
 
 const onThumbnailClick = (evt, photo) => {
   evt.preventDefault();
@@ -23,14 +24,17 @@ const createThumbnail = (photo) => {
   return thumbnail;
 };
 
-
-const renderThumbnails = () =>{
+const renderThumbnails = (pictures) =>{
   const fragment = document.createDocumentFragment();
 
-  createDescriptionPhoto.forEach((photo) => {
+  pictures.forEach((photo) => {
     fragment.append(createThumbnail(photo));
   });
-  pictures.append(fragment);
+  picturesContainer.append(fragment);
 };
+
+getData()
+  .then((pictures)=> renderThumbnails(pictures))
+  .catch((err) => showPopup(err.message));
 
 export {renderThumbnails};

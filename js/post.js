@@ -34,7 +34,6 @@ const clearComments = () => {
   commentsLoader.classList.remove('hidden');
 };
 
-
 const showMoreComments = () => {
   const showComments = commentsData.slice(commentsDisplayedCount - COMMENTS_SHOW_STEP, commentsDisplayedCount);
 

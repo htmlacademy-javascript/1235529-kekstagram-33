@@ -7,12 +7,12 @@ const showPopup = (message) => {
   popupTitle.textContent = message;
 
   document.body.append(popupError);
-
+  /* eslint-disable no-use-before-define*/
   setTimeout(removePopup, 5000);
 };
 
-function removePopup(){
+const removePopup = () => {
   document.querySelector('.data-error').remove();
-}
+};
 
 export { showPopup };

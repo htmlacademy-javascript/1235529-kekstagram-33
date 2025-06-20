@@ -5,7 +5,6 @@ const getRandomInteger = (a, b) => {
   return Math.floor(result);
 };
 
-
 const shuffle = (data) => {
   let m = data.length;
   while (m) {

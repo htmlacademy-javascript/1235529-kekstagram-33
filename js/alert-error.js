@@ -6,16 +6,17 @@ const removeAlert = () => {
   const currentAlert = document.querySelector('.error');
   if (currentAlert) {
     document.body.removeChild(currentAlert);
+    /* eslint-disable no-use-before-define*/
     document.removeEventListener('keydown', onDocumentKeydown);
   }
 };
 
-function onDocumentKeydown (evt) {
-  if (isEscapeKey(evt)) {
-    evt.preventDefault();
+const onDocumentKeydown = (event) => {
+  if (isEscapeKey(event)) {
+    event.preventDefault();
     removeAlert();
   }
-}
+};
 
 const showAlertError = (message) => {
   const alert = alertTemplateError.cloneNode(true);

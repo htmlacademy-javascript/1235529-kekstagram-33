@@ -4,10 +4,10 @@ import { changeZoom, resetZoom } from './zoom.js';
 import { resetEffect } from './filters.js';
 import { sendData } from './api.js';
 import { showAlertSucces } from './alert-success.js';
-import {showAlertError} from './alert-error.js';
+import { showAlertError } from './alert-error.js';
 
-const GET_ERROR_TAGS = 'tags';
-const GET_ERROR_DESCRIPTION = 'description';
+const ERROR_TAGS = 'tags';
+const ERROR_DESCRIPTION = 'description';
 
 const body = document.querySelector('body');
 const overlayForm = document.querySelector('.img-upload__overlay');
@@ -74,10 +74,10 @@ const closeFormUpload = () => {
 
 uploadFile.addEventListener('change', onClickFormUpload);
 
-pristine.addValidator(inputHashtags, validateHashtags, getError(GET_ERROR_TAGS), false);
+pristine.addValidator(inputHashtags, validateHashtags, getError(ERROR_TAGS), false);
 inputHashtags.addEventListener('input', onHashtagsInput);
 
-pristine.addValidator(inputDescription, validateDescription, getError(GET_ERROR_DESCRIPTION), false);
+pristine.addValidator(inputDescription, validateDescription, getError(ERROR_DESCRIPTION), false);
 inputDescription.addEventListener('input', onDescriptionInput);
 
 const onFormImgUploadSubmit = (evt) => {

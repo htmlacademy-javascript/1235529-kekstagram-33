@@ -1,21 +1,13 @@
-import { isEscapeKey } from './util.js';
+import { onDocumentKeydown } from './util.js';
+import { createElementRemover } from './util.js';
 
 const alertTemplateError = document.querySelector('#error').content;
 
 const removeAlert = () => {
-  const currentAlert = document.querySelector('.error');
-  if (currentAlert) {
-    document.body.removeChild(currentAlert);
-    /* eslint-disable no-use-before-define*/
-    document.removeEventListener('keydown', onDocumentKeydown);
-  }
-};
-
-const onDocumentKeydown = (event) => {
-  if (isEscapeKey(event)) {
-    event.preventDefault();
-    removeAlert();
-  }
+  createElementRemover(
+    '.error',
+    () => document.removeEventListener('keydown', onDocumentKeydown)
+  );
 };
 
 const showAlertError = (message) => {
@@ -37,7 +29,7 @@ const showAlertError = (message) => {
     removeAlert();
   });
 
-  document.addEventListener('keydown', onDocumentKeydown);
+  document.addEventListener('keydown', onDocumentKeydown(removeAlert));
   document.body.append(alert);
 };
 

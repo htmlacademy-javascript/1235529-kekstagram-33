@@ -1,6 +1,7 @@
-import {openPost} from './post.js';
-import {showPopup} from './popup-error.js';
-import {getData} from './api.js';
+import { openPost } from './post.js';
+import { showPopup } from './popup-error.js';
+import { getData } from './api.js';
+
 
 const thumbnailTemplate = document.querySelector('#picture').content.querySelector('.picture');
 const picturesContainer = document.querySelector('.pictures');

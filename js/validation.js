@@ -71,4 +71,4 @@ const validateHashtags = (value) => {
 const getError = (field) => () => errors[field];
 
 
-export { validateDescription, validateHashtags, getError };
+export {validateDescription, validateHashtags, getError};

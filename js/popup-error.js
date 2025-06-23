@@ -15,4 +15,4 @@ const removePopup = () => {
   document.querySelector('.data-error').remove();
 };
 
-export { showPopup };
+export {showPopup};

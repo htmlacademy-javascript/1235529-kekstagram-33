@@ -1,7 +1,4 @@
 import { openPost } from './post.js';
-import { showPopup } from './popup-error.js';
-import { getData } from './api.js';
-
 
 const thumbnailTemplate = document.querySelector('#picture').content.querySelector('.picture');
 const picturesContainer = document.querySelector('.pictures');
@@ -33,9 +30,5 @@ const renderThumbnails = (pictures) =>{
   });
   picturesContainer.append(fragment);
 };
-
-getData()
-  .then((pictures)=> renderThumbnails(pictures))
-  .catch((err) => showPopup(err.message));
 
 export {renderThumbnails};

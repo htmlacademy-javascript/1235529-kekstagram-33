@@ -1,3 +1,2 @@
-import './thumbnail_render.js';
-import './photo_upload_form.js';
-
+import {init} from './init.js';
+init();

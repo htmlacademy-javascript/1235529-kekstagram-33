@@ -3,8 +3,7 @@ import { validateDescription, validateHashtags, getError } from './validation.js
 import { changeZoom, resetZoom } from './zoom.js';
 import { resetEffect } from './filters.js';
 import { sendData } from './api.js';
-import { showAlertSucces } from './alert-success.js';
-import { showAlertError } from './alert-error.js';
+import { showAlertError, showAlertSuccess } from './alerts.js';
 
 const ERROR_TAGS = 'tags';
 const ERROR_DESCRIPTION = 'description';
@@ -20,7 +19,6 @@ const uploadFile = document.querySelector('#upload-file');
 const scaleControlSmaller = uploadForm.querySelector('.scale__control--smaller');
 const scaleControlBigger = uploadForm.querySelector('.scale__control--bigger');
 
-
 const pristine = new Pristine(uploadForm, {
   classTo: 'img-upload__field-wrapper',
   errorTextParent: 'img-upload__field-wrapper',
@@ -32,7 +30,6 @@ const onHashtagsInput = () => {
     uploadSubmit.disabled = false;
     return;
   }
-
   uploadSubmit.disabled = true;
 };
 
@@ -80,23 +77,27 @@ inputHashtags.addEventListener('input', onHashtagsInput);
 pristine.addValidator(inputDescription, validateDescription, getError(ERROR_DESCRIPTION), false);
 inputDescription.addEventListener('input', onDescriptionInput);
 
-const onFormImgUploadSubmit = (evt) => {
-  evt.preventDefault();
-  uploadSubmit.disabled = true;
+const initUploadForm = () => {
+  const onFormImgUploadSubmit = (evt) => {
+    evt.preventDefault();
+    uploadSubmit.disabled = true;
 
-  const formData = new FormData(uploadForm);
+    const formData = new FormData(uploadForm);
 
-  sendData(formData)
-    .then(() => {
-      showAlertSucces();
-      closeFormUpload();
-    })
-    .catch((err) => {
-      showAlertError(err.message);
-    })
-    .finally(() => {
-      uploadSubmit.disabled = false;
-    });
+    sendData(formData)
+      .then(() => {
+        showAlertSuccess();
+        closeFormUpload();
+      })
+      .catch((err) => {
+        showAlertError(err.message);
+      })
+      .finally(() => {
+        uploadSubmit.disabled = false;
+      });
+  };
+
+  uploadForm.addEventListener('submit', onFormImgUploadSubmit);
 };
 
-uploadForm.addEventListener('submit', onFormImgUploadSubmit);
+export {initUploadForm};

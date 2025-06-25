@@ -14,23 +14,7 @@ const shuffle = (data) => {
   return data;
 };
 
-
 const getRandomItem = (data) => data[getRandomInteger(0, data.length - 1)];
 const isEscapeKey = (evt) => evt.key === 'Escape';
 
-
-const onDocumentKeydown = (cb) => (event) => {
-  if (isEscapeKey(event)) {
-    event.preventDefault();
-    cb();
-  }
-};
-
-const createElementRemover = (selector) => {
-  const currentAlert = document.querySelector(selector);
-  if (currentAlert) {
-    document.body.removeChild(currentAlert);
-  }
-};
-
-export {getRandomInteger, shuffle, getRandomItem, isEscapeKey, onDocumentKeydown, createElementRemover};
+export {getRandomInteger, shuffle, getRandomItem, isEscapeKey};

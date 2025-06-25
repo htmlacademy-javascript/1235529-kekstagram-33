@@ -2,9 +2,11 @@ import { isEscapeKey } from './util.js';
 import { validateDescription, validateHashtags, getError } from './validation.js';
 import { changeZoom, resetZoom } from './zoom.js';
 import { resetEffect } from './filters.js';
+import { sendData } from './api.js';
+import { showAlertError, showAlertSuccess } from './alerts.js';
 
-const GET_ERROR_TAGS = 'tags';
-const GET_ERROR_DESCRIPTION = 'description';
+const ERROR_TAGS = 'tags';
+const ERROR_DESCRIPTION = 'description';
 
 const body = document.querySelector('body');
 const overlayForm = document.querySelector('.img-upload__overlay');
@@ -17,7 +19,6 @@ const uploadFile = document.querySelector('#upload-file');
 const scaleControlSmaller = uploadForm.querySelector('.scale__control--smaller');
 const scaleControlBigger = uploadForm.querySelector('.scale__control--bigger');
 
-
 const pristine = new Pristine(uploadForm, {
   classTo: 'img-upload__field-wrapper',
   errorTextParent: 'img-upload__field-wrapper',
@@ -29,7 +30,6 @@ const onHashtagsInput = () => {
     uploadSubmit.disabled = false;
     return;
   }
-
   uploadSubmit.disabled = true;
 };
 
@@ -71,8 +71,33 @@ const closeFormUpload = () => {
 
 uploadFile.addEventListener('change', onClickFormUpload);
 
-pristine.addValidator(inputHashtags, validateHashtags, getError(GET_ERROR_TAGS), false);
+pristine.addValidator(inputHashtags, validateHashtags, getError(ERROR_TAGS), false);
 inputHashtags.addEventListener('input', onHashtagsInput);
 
-pristine.addValidator(inputDescription, validateDescription, getError(GET_ERROR_DESCRIPTION), false);
+pristine.addValidator(inputDescription, validateDescription, getError(ERROR_DESCRIPTION), false);
 inputDescription.addEventListener('input', onDescriptionInput);
+
+const initUploadForm = () => {
+  const onFormImgUploadSubmit = (evt) => {
+    evt.preventDefault();
+    uploadSubmit.disabled = true;
+
+    const formData = new FormData(uploadForm);
+
+    sendData(formData)
+      .then(() => {
+        showAlertSuccess();
+        closeFormUpload();
+      })
+      .catch((err) => {
+        showAlertError(err.message);
+      })
+      .finally(() => {
+        uploadSubmit.disabled = false;
+      });
+  };
+
+  uploadForm.addEventListener('submit', onFormImgUploadSubmit);
+};
+
+export {initUploadForm};

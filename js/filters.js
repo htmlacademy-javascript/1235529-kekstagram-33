@@ -87,4 +87,4 @@ const resetEffect = () => {
   effects.none();
 };
 
-export { resetEffect };
+export {resetEffect};

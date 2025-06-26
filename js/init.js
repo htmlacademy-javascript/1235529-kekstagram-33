@@ -2,6 +2,7 @@ import { renderThumbnails } from './thumbnail_render.js';
 import { initUploadForm } from './photo_upload_form.js';
 import { getData } from './api.js';
 import { showPopup } from './popup-error.js';
+// import { initFilter } from './photo-filters.js';
 
 const init = () => {
   initUploadForm();
